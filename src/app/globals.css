@@ -1,0 +1,342 @@
+@import "tailwindcss";
+
+/* CSS Variables for Design System */
+:root {
+  /* Glass Effect Variables */
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-background: rgba(255, 255, 255, 0.02);
+  --glass-backdrop-blur: blur(8px);
+  --glass-focus-border: rgba(139, 92, 246, 0.4);
+  --glass-focus-background: rgba(139, 92, 246, 0.05);
+
+  /* Animation Timing */
+  --animation-duration: 0.8s;
+  --animation-easing: ease-out;
+  --animation-delay-increment: 0.1s;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a; /* zinc-950 */
+  color: #f4f4f5; /* zinc-100 */
+  font-family:
+    var(--geist-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animation Keyframes */
+@keyframes fade-slide-blur {
+  from {
+    opacity: 0;
+    transform: translateY(30px) blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) blur(0);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes testimonial-enter {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(139, 92, 246, 0);
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  /* Glass Effect Utilities */
+  .glass {
+    background: var(--glass-background);
+    border: var(--glass-border);
+    backdrop-filter: var(--glass-backdrop-blur);
+    -webkit-backdrop-filter: var(--glass-backdrop-blur);
+  }
+
+  .glass-card {
+    background: rgba(39, 39, 42, 0.4); /* zinc-800/40 */
+    border: var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-focus {
+    border-color: var(--glass-focus-border);
+    background: var(--glass-focus-background);
+  }
+
+  /* Animation Utilities */
+  .animate-element {
+    animation: fade-slide-blur var(--animation-duration) var(--animation-easing)
+      both;
+  }
+
+  .animate-slide-right {
+    animation: slide-right var(--animation-duration) var(--animation-easing)
+      both;
+  }
+
+  .animate-testimonial {
+    animation: testimonial-enter var(--animation-duration)
+      var(--animation-easing) both;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+
+  /* Staggered Animation Delays */
+  .animate-delay-100 {
+    animation-delay: calc(var(--animation-delay-increment) * 1);
+  }
+  .animate-delay-200 {
+    animation-delay: calc(var(--animation-delay-increment) * 2);
+  }
+  .animate-delay-300 {
+    animation-delay: calc(var(--animation-delay-increment) * 3);
+  }
+  .animate-delay-400 {
+    animation-delay: calc(var(--animation-delay-increment) * 4);
+  }
+  .animate-delay-500 {
+    animation-delay: calc(var(--animation-delay-increment) * 5);
+  }
+  .animate-delay-600 {
+    animation-delay: calc(var(--animation-delay-increment) * 6);
+  }
+  .animate-delay-700 {
+    animation-delay: calc(var(--animation-delay-increment) * 7);
+  }
+  .animate-delay-800 {
+    animation-delay: calc(var(--animation-delay-increment) * 8);
+  }
+  .animate-delay-900 {
+    animation-delay: calc(var(--animation-delay-increment) * 9);
+  }
+  .animate-delay-1000 {
+    animation-delay: calc(var(--animation-delay-increment) * 10);
+  }
+  .animate-delay-1100 {
+    animation-delay: calc(var(--animation-delay-increment) * 11);
+  }
+  .animate-delay-1200 {
+    animation-delay: calc(var(--animation-delay-increment) * 12);
+  }
+  .animate-delay-1300 {
+    animation-delay: calc(var(--animation-delay-increment) * 13);
+  }
+  .animate-delay-1400 {
+    animation-delay: calc(var(--animation-delay-increment) * 14);
+  }
+
+  /* Focus States */
+  .focus-ring {
+    @apply focus:ring-2 focus:ring-violet-400/50 focus:ring-offset-2 focus:ring-offset-zinc-950 focus:outline-none;
+  }
+
+  .focus-glass {
+    @apply focus:ring-2 focus:ring-violet-400/50 focus:ring-offset-2 focus:ring-offset-zinc-950;
+  }
+
+  .focus-glass:focus {
+    border-color: var(--glass-focus-border);
+    background: var(--glass-focus-background);
+  }
+
+  /* Glass Button Styles */
+  .glass-button {
+    @apply rounded-2xl px-6 py-4 font-medium text-zinc-100 transition-all duration-300;
+    background: var(--glass-background);
+    border: var(--glass-border);
+    backdrop-filter: var(--glass-backdrop-blur);
+    -webkit-backdrop-filter: var(--glass-backdrop-blur);
+  }
+
+  .glass-button:hover {
+    @apply bg-zinc-900/30;
+  }
+
+  .glass-button:focus {
+    border-color: var(--glass-focus-border);
+    background: var(--glass-focus-background);
+    @apply ring-2 ring-violet-400/50 ring-offset-2 ring-offset-zinc-950;
+  }
+
+  /* Glass Input Styles */
+  .glass-input {
+    @apply rounded-2xl bg-transparent px-4 py-4 text-zinc-100 placeholder-zinc-500;
+    background: var(--glass-background);
+    border: var(--glass-border);
+    backdrop-filter: var(--glass-backdrop-blur);
+    -webkit-backdrop-filter: var(--glass-backdrop-blur);
+  }
+
+  .glass-input:focus {
+    border-color: var(--glass-focus-border);
+    background: var(--glass-focus-background);
+    @apply ring-2 ring-violet-400/50 ring-offset-2 ring-offset-zinc-950;
+  }
+
+  /* Custom Checkbox Styles */
+  .custom-checkbox {
+    @apply relative inline-flex h-[18px] w-[18px] items-center justify-center rounded-[6px] border border-white/10 bg-transparent transition-all duration-200;
+  }
+
+  .custom-checkbox:checked {
+    @apply border-violet-500 bg-violet-500;
+  }
+
+  .custom-checkbox:focus {
+    border-color: var(--glass-focus-border);
+    background: var(--glass-focus-background);
+    @apply ring-2 ring-violet-400/50 ring-offset-2 ring-offset-zinc-950;
+  }
+
+  /* Loading States */
+  .loading-skeleton {
+    @apply animate-pulse rounded-2xl bg-zinc-800/50;
+  }
+
+  .loading-shimmer {
+    @apply rounded-2xl bg-zinc-800/50;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Status Colors */
+  .status-success {
+    @apply border-green-400/20 bg-green-400/5 text-green-400;
+  }
+
+  .status-warning {
+    @apply border-yellow-400/20 bg-yellow-400/5 text-yellow-400;
+  }
+
+  .status-error {
+    @apply border-red-400/20 bg-red-400/5 text-red-400;
+  }
+
+  .status-info {
+    @apply border-violet-400/20 bg-violet-400/5 text-violet-400;
+  }
+
+  /* Typography Enhancements */
+  .font-display {
+    font-size: 2.5rem; /* 4xl */
+    font-weight: 300; /* font-light */
+    letter-spacing: -0.025em; /* tracking-tighter */
+    line-height: 1.1;
+  }
+
+  @media (min-width: 768px) {
+    .font-display {
+      font-size: 3rem; /* 5xl */
+    }
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #18181b; /* zinc-900 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46; /* zinc-700 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b; /* zinc-600 */
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-element,
+  .animate-slide-right,
+  .animate-testimonial {
+    animation: none;
+  }
+}
+
+/* Selection Styles */
+::selection {
+  background-color: rgba(139, 92, 246, 0.3);
+  color: #f4f4f5;
+}

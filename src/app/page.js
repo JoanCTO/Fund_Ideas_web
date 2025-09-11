@@ -1,311 +1,240 @@
-"use client";
-
-import "./app.css";
-import "@appwrite.io/pink-icons";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { client } from "@/lib/appwrite";
-import { AppwriteException } from "appwrite";
-import NextjsLogo from "../static/nextjs-icon.svg";
-import AppwriteLogo from "../static/appwrite-icon.svg";
-import Image from "next/image";
+import {
+  Layout,
+  Container,
+  Section,
+  Grid,
+  Flex,
+} from "@/components/layout/Layout";
+import { Navigation } from "@/components/layout/Navigation";
+import { Button } from "@/components/ui/Button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/Card";
+import { Progress } from "@/components/ui/Progress";
+import { Badge } from "@/components/ui/Badge";
+import { Icon } from "@/components/ui/Icon";
+import {
+  Rocket,
+  Users,
+  TrendingUp,
+  Shield,
+  Star,
+  ArrowRight,
+  Play,
+} from "lucide-react";
 
 export default function Home() {
-  const [detailHeight, setDetailHeight] = useState(55);
-  const [logs, setLogs] = useState([]);
-  const [status, setStatus] = useState("idle");
-  const [showLogs, setShowLogs] = useState(false);
+  const featuredProjects = [
+    {
+      id: 1,
+      title: "AI-Powered Code Review Tool",
+      description:
+        "Revolutionary AI system that automatically reviews code for security vulnerabilities and performance issues.",
+      creator: "TechCorp Labs",
+      raised: 45000,
+      goal: 75000,
+      backers: 234,
+      daysLeft: 15,
+      category: "AI/ML",
+      image: "/api/placeholder/400/300",
+    },
+    {
+      id: 2,
+      title: "Decentralized Identity Platform",
+      description:
+        "Blockchain-based identity verification system for secure, privacy-focused authentication.",
+      creator: "BlockChain Solutions",
+      raised: 32000,
+      goal: 50000,
+      backers: 189,
+      daysLeft: 22,
+      category: "Blockchain",
+      image: "/api/placeholder/400/300",
+    },
+    {
+      id: 3,
+      title: "Quantum Computing Simulator",
+      description:
+        "Advanced quantum computing simulation platform for researchers and developers.",
+      creator: "Quantum Labs",
+      raised: 28000,
+      goal: 100000,
+      backers: 156,
+      daysLeft: 8,
+      category: "Quantum Computing",
+      image: "/api/placeholder/400/300",
+    },
+  ];
 
-  const detailsRef = useRef(null);
-
-  const updateHeight = useCallback(() => {
-    if (detailsRef.current) {
-      setDetailHeight(detailsRef.current.clientHeight);
-    }
-  }, [logs, showLogs]);
-
-  useEffect(() => {
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, [updateHeight]);
-
-  useEffect(() => {
-    if (!detailsRef.current) return;
-    detailsRef.current.addEventListener("toggle", updateHeight);
-
-    return () => {
-      if (!detailsRef.current) return;
-      detailsRef.current.removeEventListener("toggle", updateHeight);
-    };
-  }, []);
-
-  async function sendPing() {
-    if (status === "loading") return;
-    setStatus("loading");
-    try {
-      const result = await client.ping();
-      const log = {
-        date: new Date(),
-        method: "GET",
-        path: "/v1/ping",
-        status: 200,
-        response: JSON.stringify(result),
-      };
-      setLogs((prevLogs) => [log, ...prevLogs]);
-      setStatus("success");
-    } catch (err) {
-      const log = {
-        date: new Date(),
-        method: "GET",
-        path: "/v1/ping",
-        status: err instanceof AppwriteException ? err.code : 500,
-        response:
-          err instanceof AppwriteException
-            ? err.message
-            : "Something went wrong",
-      };
-      setLogs((prevLogs) => [log, ...prevLogs]);
-      setStatus("error");
-    }
-    setShowLogs(true);
-  }
+  const stats = [
+    { label: "Projects Funded", value: "1,247", icon: Rocket },
+    { label: "Total Backers", value: "45,892", icon: Users },
+    { label: "Success Rate", value: "87%", icon: TrendingUp },
+    { label: "Trust Score", value: "9.8/10", icon: Shield },
+  ];
 
   return (
-    <main
-      className="checker-background flex flex-col items-center p-5"
-      style={{ marginBottom: `${detailHeight}px` }}
-    >
-      <div className="mt-25 flex w-full max-w-[40em] items-center justify-center lg:mt-34">
-        <div className="rounded-[25%] border border-[#19191C0A] bg-[#F9F9FA] p-3 shadow-[0px_9.36px_9.36px_0px_hsla(0,0%,0%,0.04)]">
-          <div className="rounded-[25%] border border-[#FAFAFB] bg-white p-5 shadow-[0px_2px_12px_0px_hsla(0,0%,0%,0.03)] lg:p-9">
-            <Image
-              alt={"Next.js logo"}
-              src={NextjsLogo}
-              width={56}
-              height={56}
-            />
-          </div>
-        </div>
-        <div
-          className={`flex w-38 items-center transition-opacity duration-2500 ${status === "success" ? "opacity-100" : "opacity-0"}`}
-        >
-          <div className="to-[rgba(253, 54, 110, 0.15)] h-[1px] flex-1 bg-gradient-to-l from-[#f02e65]"></div>
-          <div className="icon-check flex h-5 w-5 items-center justify-center rounded-full border border-[#FD366E52] bg-[#FD366E14] text-[#FD366E]"></div>
-          <div className="to-[rgba(253, 54, 110, 0.15)] h-[1px] flex-1 bg-gradient-to-r from-[#f02e65]"></div>
-        </div>
-        <div className="rounded-[25%] border border-[#19191C0A] bg-[#F9F9FA] p-3 shadow-[0px_9.36px_9.36px_0px_hsla(0,0%,0%,0.04)]">
-          <div className="rounded-[25%] border border-[#FAFAFB] bg-white p-5 shadow-[0px_2px_12px_0px_hsla(0,0%,0%,0.03)] lg:p-9">
-            <Image
-              alt={"Appwrite logo"}
-              src={AppwriteLogo}
-              width={56}
-              height={56}
-            />
-          </div>
-        </div>
-      </div>
+    <Layout>
+      {/* Hero Section */}
+      <Section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-blue-500/10" />
+        <Container className="relative">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="animate-element">
+              <Badge variant="violet" className="mb-6">
+                <Star className="mr-2 h-4 w-4" />
+                Trusted by 50,000+ creators
+              </Badge>
+            </div>
 
-      <section className="mt-12 flex h-52 flex-col items-center">
-        {status === "loading" ? (
-          <div className="flex flex-row gap-4">
-            <div role="status">
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5 animate-spin fill-[#FD366E] text-gray-200 dark:text-gray-600"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            <h1 className="animate-element animate-delay-100 font-display mb-6 text-zinc-100">
+              Fund the Future of
+              <span className="text-violet-400"> Technical Innovation</span>
+            </h1>
+
+            <p className="animate-element animate-delay-200 mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-zinc-400">
+              Connect with visionary creators, back groundbreaking projects, and
+              be part of the next generation of technological breakthroughs.
+            </p>
+
+            <div className="animate-element animate-delay-300 flex flex-col justify-center gap-4 sm:flex-row">
+              <Button variant="primary" size="lg" className="group">
+                Start Your Project
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+              <Button variant="glass" size="lg" className="group">
+                <Play className="mr-2 h-5 w-5" />
+                Watch Demo
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Stats Section */}
+      <Section background="subtle">
+        <Container>
+          <Grid cols={4} className="text-center">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className="animate-element"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill"
-                />
-              </svg>
-              <span className="sr-only">Loading...</span>
-            </div>
-            <span>Waiting for connection...</span>
-          </div>
-        ) : status === "success" ? (
-          <h1 className="font-[Poppins] text-2xl font-light text-[#2D2D31]">
-            Congratulations!
-          </h1>
-        ) : (
-          <h1 className="font-[Poppins] text-2xl font-light text-[#2D2D31]">
-            Check connection
-          </h1>
-        )}
+                <Icon
+                  container
+                  size="xl"
+                  variant="violet"
+                  className="mx-auto mb-4"
+                >
+                  <stat.icon className="h-8 w-8" />
+                </Icon>
+                <div className="mb-2 text-3xl font-bold text-zinc-100">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-zinc-400">{stat.label}</div>
+              </div>
+            ))}
+          </Grid>
+        </Container>
+      </Section>
 
-        <p className="mt-2 mb-8">
-          {status === "success" ? (
-            <span>You connected your app successfully.</span>
-          ) : status === "error" || status === "idle" ? (
-            <span>Send a ping to verify the connection</span>
-          ) : null}
-        </p>
-
-        <button
-          onClick={sendPing}
-          className={`cursor-pointer rounded-md bg-[#FD366E] px-2.5 py-1.5 ${status === "loading" ? "hidden" : "visible"}`}
-        >
-          <span className="text-white">Send a ping</span>
-        </button>
-      </section>
-
-      <div className="grid grid-rows-3 gap-7 lg:grid-cols-3 lg:grid-rows-none">
-        <div className="flex h-full w-72 flex-col gap-2 rounded-md border border-[#EDEDF0] bg-white p-4">
-          <h2 className="text-xl font-light text-[#2D2D31]">Edit your app</h2>
-          <p>
-            Edit{" "}
-            <code className="rounded-sm bg-[#EDEDF0] p-1">app/page.js</code> to
-            get started with building your app.
-          </p>
-        </div>
-        <a
-          href="https://cloud.appwrite.io"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="flex h-full w-72 flex-col gap-2 rounded-md border border-[#EDEDF0] bg-white p-4">
-            <div className="flex flex-row items-center justify-between">
-              <h2 className="text-xl font-light text-[#2D2D31]">
-                Go to console
-              </h2>
-              <span className="icon-arrow-right text-[#D8D8DB]"></span>
-            </div>
-            <p>
-              Navigate to the console to control and oversee the Appwrite
-              services.
+      {/* Featured Projects */}
+      <Section>
+        <Container>
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-semibold text-zinc-100">
+              Featured Projects
+            </h2>
+            <p className="mx-auto max-w-2xl text-zinc-400">
+              Discover innovative technical projects that are shaping the future
             </p>
           </div>
-        </a>
 
-        <a
-          href="https://appwrite.io/docs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="flex h-full w-72 flex-col gap-2 rounded-md border border-[#EDEDF0] bg-white p-4">
-            <div className="flex flex-row items-center justify-between">
-              <h2 className="text-xl font-light text-[#2D2D31]">
-                Explore docs
-              </h2>
-              <span className="icon-arrow-right text-[#D8D8DB]"></span>
-            </div>
-            <p>
-              Discover the full power of Appwrite by diving into our
-              documentation.
+          <Grid cols={3} gap="lg">
+            {featuredProjects.map((project, index) => (
+              <Card
+                key={project.id}
+                variant="elevated"
+                className="animate-element"
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <CardHeader>
+                  <div className="mb-2 flex items-center justify-between">
+                    <Badge variant="violet">{project.category}</Badge>
+                    <span className="text-sm text-zinc-400">
+                      {project.daysLeft} days left
+                    </span>
+                  </div>
+                  <CardTitle className="text-xl">{project.title}</CardTitle>
+                  <CardDescription className="text-zinc-300">
+                    by {project.creator}
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                  <p className="mb-6 leading-relaxed text-zinc-400">
+                    {project.description}
+                  </p>
+
+                  <div className="space-y-4">
+                    <div>
+                      <div className="mb-2 flex justify-between text-sm">
+                        <span className="text-zinc-400">Progress</span>
+                        <span className="font-medium text-zinc-100">
+                          ${project.raised.toLocaleString()} / $
+                          {project.goal.toLocaleString()}
+                        </span>
+                      </div>
+                      <Progress
+                        value={project.raised}
+                        max={project.goal}
+                        className="h-2"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm text-zinc-400">
+                        {project.backers} backers
+                      </div>
+                      <Button variant="accent" size="sm">
+                        Back Project
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </Grid>
+        </Container>
+      </Section>
+
+      {/* CTA Section */}
+      <Section background="glass">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="mb-6 text-3xl font-semibold text-zinc-100">
+              Ready to Make Your Mark?
+            </h2>
+            <p className="mb-8 text-xl text-zinc-400">
+              Join thousands of creators who are building the future with Fund
+              Ideas
             </p>
-          </div>
-        </a>
-      </div>
-
-      <aside className="fixed bottom-0 flex w-full cursor-pointer border-t border-[#EDEDF0] bg-white">
-        <details open={showLogs} ref={detailsRef} className={"w-full"}>
-          <summary className="flex w-full flex-row justify-between p-4 marker:content-none">
-            <div className="flex gap-2">
-              <span className="font-semibold">Logs</span>
-              {logs.length > 0 && (
-                <div className="flex items-center rounded-md bg-[#E6E6E6] px-2">
-                  <span className="font-semibold">{logs.length}</span>
-                </div>
-              )}
-            </div>
-            <div className="icon">
-              <span className="icon-cheveron-down" aria-hidden="true"></span>
-            </div>
-          </summary>
-          <div className="flex w-full flex-col lg:flex-row">
-            <div className="flex flex-col border-r border-[#EDEDF0]">
-              <div className="border-y border-[#EDEDF0] bg-[#FAFAFB] px-4 py-2 text-[#97979B]">
-                Project
-              </div>
-              <div className="grid grid-cols-2 gap-4 p-4">
-                <div className="flex flex-col">
-                  <span className="text-[#97979B]">Endpoint</span>
-                  <span className="truncate">
-                    {process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[#97979B]">Project-ID</span>
-                  <span className="truncate">
-                    {process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[#97979B]">Project name</span>
-                  <span className="truncate">
-                    {process.env.NEXT_PUBLIC_APPWRITE_PROJECT_NAME}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex-grow">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-y border-[#EDEDF0] bg-[#FAFAFB] text-[#97979B]">
-                    {logs.length > 0 ? (
-                      <>
-                        <td className="w-52 py-2 pl-4">Date</td>
-                        <td>Status</td>
-                        <td>Method</td>
-                        <td className="hidden lg:table-cell">Path</td>
-                        <td className="hidden lg:table-cell">Response</td>
-                      </>
-                    ) : (
-                      <>
-                        <td className="py-2 pl-4">Logs</td>
-                      </>
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {logs.length > 0 ? (
-                    logs.map((log) => (
-                      <tr>
-                        <td className="py-2 pl-4 font-[Fira_Code]">
-                          {log.date.toLocaleString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </td>
-                        <td>
-                          {log.status > 400 ? (
-                            <div className="w-fit rounded-sm bg-[#FF453A3D] px-1 text-[#B31212]">
-                              {log.status}
-                            </div>
-                          ) : (
-                            <div className="w-fit rounded-sm bg-[#10B9813D] px-1 text-[#0A714F]">
-                              {log.status}
-                            </div>
-                          )}
-                        </td>
-                        <td>{log.method}</td>
-                        <td className="hidden lg:table-cell">{log.path}</td>
-                        <td className="hidden font-[Fira_Code] lg:table-cell">
-                          {log.response}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td className="py-2 pl-4 font-[Fira_Code]">
-                        There are no logs to show
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
+              <Button variant="primary" size="lg">
+                Create Your Project
+              </Button>
+              <Button variant="glass" size="lg">
+                Explore Opportunities
+              </Button>
             </div>
           </div>
-        </details>
-      </aside>
-    </main>
+        </Container>
+      </Section>
+    </Layout>
   );
 }
