@@ -7,16 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "setup:db": "node src/lib/setup.js"
+    "setup": "node scripts/setup-database.js",
+    "setup:db": "node scripts/setup-database.js",
+    "test:setup": "node scripts/test-setup.js"
   },
   "dependencies": {
     "@appwrite.io/pink-icons": "^1.0.0",
     "@tailwindcss/postcss": "^4.0.14",
     "appwrite": "^16.1.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
     "geist": "^1.5.1",
     "lucide-react": "^0.544.0",
     "next": "14.2.15",
+    "node-appwrite": "^12.0.0",
     "postcss": "^8.5.3",
     "react": "^18",
     "react-dom": "^18",
