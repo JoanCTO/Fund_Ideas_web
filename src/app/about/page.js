@@ -28,27 +28,27 @@ export default function AboutPage() {
   const values = [
     {
       icon: Target,
-      title: "Mission-Driven",
+      title: "Milestone-Based Funding",
       description:
-        "We're committed to empowering technical innovators and connecting them with supporters who share their vision.",
+        "Backers only pay when milestones are completed and approved by the community. No upfront payments, maximum accountability.",
     },
     {
       icon: Shield,
-      title: "Trust & Security",
+      title: "Creator Verification",
       description:
-        "Built on secure infrastructure with transparent processes, ensuring safe transactions and project delivery.",
+        "Government ID verification, portfolio review, and public creator scoring ensure trust and quality in every project.",
     },
     {
       icon: Users,
-      title: "Community First",
+      title: "Technical Focus",
       description:
-        "Fostering a supportive ecosystem where creators and backers collaborate to bring ideas to life.",
+        "Exclusively for digital products: apps, software, SaaS, dev tools, and technical courses. No hardware or services.",
     },
     {
       icon: Zap,
-      title: "Innovation Focus",
+      title: "No Equity Dilution",
       description:
-        "Dedicated to technical projects that push boundaries and create meaningful impact in the world.",
+        "Creators maintain full ownership while accessing $5K-$50K in community funding without giving up company shares.",
     },
   ];
 
@@ -96,17 +96,18 @@ export default function AboutPage() {
 
             <h1 className="animate-element animate-delay-100 mb-6 text-4xl font-semibold text-zinc-100 md:text-5xl">
               <span className="font-light tracking-tighter">
-                Building the Future
+                Product Hunt Meets
               </span>{" "}
-              <span className="text-violet-400">Together</span>
+              <span className="text-violet-400">Crowdfunding</span>
             </h1>
 
             <p className="animate-element animate-delay-200 mx-auto mb-8 max-w-3xl text-xl leading-relaxed text-zinc-400">
-              Fund Ideas is the premier platform for technical innovation,
-              connecting visionary creators with passionate backers to bring
-              groundbreaking projects to life. We believe in the power of
-              community-driven development and the transformative potential of
-              technology.
+              Fund Ideas is the specialized milestone-based crowdfunding
+              platform for technical digital products. We enable creators to
+              bootstrap their companies without equity dilution while giving
+              backers early access to innovative products at significant
+              discounts. Our platform focuses exclusively on digital products,
+              apps, software, and technical tools.
             </p>
           </div>
         </Container>
@@ -156,28 +157,31 @@ export default function AboutPage() {
 
             <div className="prose prose-invert max-w-none">
               <p className="mb-6 text-lg leading-relaxed text-zinc-300">
-                Fund Ideas was born from a simple observation: the most
-                innovative technical projects often struggle to find funding and
-                community support. Traditional crowdfunding platforms weren't
-                designed for the unique needs of technical creators, who require
-                specialized tools, expert feedback, and a community that
-                understands the complexities of software development.
+                Fund Ideas was born from recognizing a critical gap in the
+                crowdfunding ecosystem: technical creators building digital
+                products needed a specialized platform that understood their
+                unique challenges. Traditional crowdfunding platforms weren't
+                designed for software development cycles, technical validation,
+                or the milestone-based approach that digital products require.
               </p>
 
               <p className="mb-6 text-lg leading-relaxed text-zinc-300">
-                We set out to create a platform that bridges this gap, providing
-                creators with the resources they need to validate ideas, build
-                prototypes, and scale their innovations. Our platform combines
-                cutting-edge technology with human expertise, ensuring that
-                every project receives the attention and support it deserves.
+                We created a platform specifically for technical digital
+                products - apps, software, SaaS, dev tools, and technical
+                courses. Our milestone-based funding model ensures backers only
+                pay when deliverables are completed and approved by the
+                community. This creates accountability while protecting both
+                creators and backers from the risks of traditional crowdfunding.
               </p>
 
               <p className="text-lg leading-relaxed text-zinc-300">
-                Today, Fund Ideas has become the go-to destination for technical
-                innovation, hosting everything from open-source libraries to
-                enterprise software solutions. We're proud to have helped
-                thousands of creators turn their ideas into reality, and we're
-                just getting started.
+                Today, Fund Ideas serves as the premier destination for
+                technical product crowdfunding, enabling creators to bootstrap
+                their companies without equity dilution while giving backers
+                early access to innovative products at significant discounts.
+                We're proud to have helped thousands of technical creators turn
+                their ideas into reality, maintaining full ownership of their
+                companies.
               </p>
             </div>
           </div>
@@ -271,19 +275,20 @@ export default function AboutPage() {
               <Lightbulb className="h-8 w-8" />
             </Icon>
             <h2 className="mb-6 text-3xl font-semibold text-zinc-100">
-              Ready to Join Our Mission?
+              Ready to Bootstrap Your Technical Product?
             </h2>
             <p className="mb-8 text-xl text-zinc-400">
-              Whether you're a creator with a groundbreaking idea or a backer
-              looking to support innovation, we'd love to have you join our
-              community.
+              Whether you're a technical creator with a digital product idea or
+              a backer looking for early access to innovative software at
+              discounted prices, join our specialized community focused on
+              technical innovation.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Button variant="primary" size="lg">
-                Start Your Project
+                Launch Your Campaign
               </Button>
               <Button variant="glass" size="lg">
-                Explore Projects
+                Discover Projects
               </Button>
             </div>
           </div>

@@ -75,9 +75,9 @@ export default function Home() {
 
   const stats = [
     { label: "Projects Funded", value: "1,247", icon: Rocket },
-    { label: "Total Backers", value: "45,892", icon: Users },
+    { label: "Active Backers", value: "45,892", icon: Users },
     { label: "Success Rate", value: "87%", icon: TrendingUp },
-    { label: "Trust Score", value: "9.8/10", icon: Shield },
+    { label: "Avg. Discount", value: "50%", icon: Shield },
   ];
 
   return (
@@ -96,27 +96,31 @@ export default function Home() {
                 </div>
 
                 <h1 className="animate-element animate-delay-100 font-display mb-6 text-zinc-100">
-                  Fund the Future of
-                  <span className="text-violet-400"> Technical Innovation</span>
+                  Fund Ideas:
+                  <span className="text-violet-400">
+                    {" "}
+                    Product Hunt Meets Crowdfunding
+                  </span>
                 </h1>
 
                 <p className="animate-element animate-delay-200 mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-zinc-400">
-                  Connect with visionary creators, back groundbreaking projects,
-                  and be part of the next generation of technological
-                  breakthroughs.
+                  The specialized milestone-based crowdfunding platform for
+                  technical digital products. Enable creators to bootstrap their
+                  companies without equity dilution while giving backers early
+                  access to innovative products at significant discounts.
                 </p>
 
                 <div className="animate-element animate-delay-300 flex flex-col justify-center gap-4 sm:flex-row">
                   <Link href="/create-project">
                     <Button variant="primary" size="lg" className="group">
-                      Start Your Project
+                      Launch Your Project
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
                   <Link href="/discover">
                     <Button variant="glass" size="lg" className="group">
                       <Play className="mr-2 h-5 w-5" />
-                      Discover Projects
+                      Back Innovation
                     </Button>
                   </Link>
                 </div>
@@ -159,10 +163,12 @@ export default function Home() {
         <Container>
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-semibold text-zinc-100">
-              Featured Projects
+              Featured Technical Projects
             </h2>
             <p className="mx-auto max-w-2xl text-zinc-400">
-              Discover innovative technical projects that are shaping the future
+              Discover milestone-based crowdfunding campaigns for digital
+              products, apps, software, and technical tools that are
+              revolutionizing industries
             </p>
           </div>
 
@@ -214,7 +220,7 @@ export default function Home() {
                       </div>
                       <Link href={`/projects/${project.id}`}>
                         <Button variant="accent" size="sm">
-                          Back Project
+                          Support Project
                         </Button>
                       </Link>
                     </div>
@@ -231,21 +237,22 @@ export default function Home() {
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="mb-6 text-3xl font-semibold text-zinc-100">
-              Ready to Make Your Mark?
+              Ready to Bootstrap Your Technical Product?
             </h2>
             <p className="mb-8 text-xl text-zinc-400">
-              Join thousands of creators who are building the future with Fund
-              Ideas
+              Join thousands of technical creators who are building innovative
+              digital products without equity dilution. Get funding, validation,
+              and early customers all in one platform.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Link href="/create-project">
                 <Button variant="primary" size="lg">
-                  Create Your Project
+                  Launch Your Campaign
                 </Button>
               </Link>
               <Link href="/discover">
                 <Button variant="glass" size="lg">
-                  Explore Opportunities
+                  Discover Projects
                 </Button>
               </Link>
             </div>
