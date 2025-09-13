@@ -28,7 +28,7 @@ import {
   ModalDescription,
 } from "@/components/ui/Modal";
 import { Alert, Toast } from "@/components/ui/Alert";
-import { Spinner } from "@/components/ui/Spinner";
+import { Spinner } from "@/components/ui/Loading/Spinner";
 import {
   Skeleton,
   SkeletonCard,

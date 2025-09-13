@@ -17,6 +17,7 @@ import {
 import { Progress } from "@/components/ui/Progress";
 import { Badge } from "@/components/ui/Badge";
 import { Icon } from "@/components/ui/Icon";
+import ShaderBackground from "@/components/ui/ShaderBackground";
 import {
   Rocket,
   Users,
@@ -79,40 +80,44 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <Section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-blue-500/10" />
-        <Container className="relative">
-          <div className="mx-auto max-w-4xl text-center">
-            <div className="animate-element">
-              <Badge variant="violet" className="mb-6">
-                <Star className="mr-2 h-4 w-4" />
-                Trusted by 50,000+ creators
-              </Badge>
-            </div>
+      {/* Hero Section with Shader Background */}
+      <Section className="relative overflow-hidden" padding="none">
+        <ShaderBackground>
+          <div className="flex h-[80vh] items-center justify-center">
+            <Container className="relative z-10">
+              <div className="mx-auto max-w-4xl text-center">
+                <div className="animate-element">
+                  <Badge variant="violet" className="mb-6">
+                    <Star className="mr-2 h-4 w-4" />
+                    Trusted by 50,000+ creators
+                  </Badge>
+                </div>
 
-            <h1 className="animate-element animate-delay-100 font-display mb-6 text-zinc-100">
-              Fund the Future of
-              <span className="text-violet-400"> Technical Innovation</span>
-            </h1>
+                <h1 className="animate-element animate-delay-100 font-display mb-6 text-zinc-100">
+                  Fund the Future of
+                  <span className="text-violet-400"> Technical Innovation</span>
+                </h1>
 
-            <p className="animate-element animate-delay-200 mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-zinc-400">
-              Connect with visionary creators, back groundbreaking projects, and
-              be part of the next generation of technological breakthroughs.
-            </p>
+                <p className="animate-element animate-delay-200 mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-zinc-400">
+                  Connect with visionary creators, back groundbreaking projects,
+                  and be part of the next generation of technological
+                  breakthroughs.
+                </p>
 
-            <div className="animate-element animate-delay-300 flex flex-col justify-center gap-4 sm:flex-row">
-              <Button variant="primary" size="lg" className="group">
-                Start Your Project
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button variant="glass" size="lg" className="group">
-                <Play className="mr-2 h-5 w-5" />
-                Watch Demo
-              </Button>
-            </div>
+                <div className="animate-element animate-delay-300 flex flex-col justify-center gap-4 sm:flex-row">
+                  <Button variant="primary" size="lg" className="group">
+                    Start Your Project
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                  <Button variant="glass" size="lg" className="group">
+                    <Play className="mr-2 h-5 w-5" />
+                    Watch Demo
+                  </Button>
+                </div>
+              </div>
+            </Container>
           </div>
-        </Container>
+        </ShaderBackground>
       </Section>
 
       {/* Stats Section */}
