@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
   Home,
@@ -46,19 +47,19 @@ const Sidebar = ({
     {
       icon: Plus,
       label: "Create Project",
-      href: "/create",
+      href: "/create-project",
       badge: "New",
     },
     {
       icon: TrendingUp,
-      label: "Trending",
-      href: "/trending",
+      label: "My Projects",
+      href: "/dashboard/projects",
       badge: null,
     },
     {
       icon: Bookmark,
       label: "Saved",
-      href: "/saved",
+      href: "/dashboard/saved",
       badge: null,
     },
   ];
@@ -66,12 +67,17 @@ const Sidebar = ({
   const userItems = [
     {
       icon: User,
-      label: "Profile",
-      href: "/profile",
+      label: "View Profile",
+      href: `/profile/${user?.username || "me"}`,
     },
     {
       icon: Settings,
-      label: "Settings",
+      label: "Edit Profile",
+      href: "/profile/edit",
+    },
+    {
+      icon: Settings,
+      label: "Account Settings",
       href: "/settings",
     },
   ];
@@ -112,7 +118,7 @@ const Sidebar = ({
       {/* Navigation */}
       <nav className="flex-1 space-y-2 p-4">
         {navigationItems.map((item) => (
-          <a
+          <Link
             key={item.href}
             href={item.href}
             className={cn(
@@ -140,7 +146,7 @@ const Sidebar = ({
                 )}
               </>
             )}
-          </a>
+          </Link>
         ))}
       </nav>
 
@@ -186,14 +192,14 @@ const Sidebar = ({
           {!isCollapsed && (
             <div className="mt-3 space-y-1">
               {userItems.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   className="flex items-center space-x-3 rounded-xl px-3 py-2 text-sm text-zinc-400 transition-colors hover:bg-zinc-900/30 hover:text-zinc-100"
                 >
                   <item.icon className="h-4 w-4" />
                   <span>{item.label}</span>
-                </a>
+                </Link>
               ))}
             </div>
           )}

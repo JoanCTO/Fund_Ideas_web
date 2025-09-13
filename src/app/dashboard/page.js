@@ -5,19 +5,20 @@ import { useAuth } from "@/lib/contexts/AuthContext";
 import { CreatorDashboard } from "@/components/dashboard/CreatorDashboard";
 import { BackerDashboard } from "@/components/dashboard/BackerDashboard";
 import { AuthGuard } from "@/components/auth/AuthGuard";
+import { DashboardLayout } from "@/components/layout/DashboardLayout";
 
 export default function DashboardPage() {
   const { user, profile } = useAuth();
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-zinc-950">
+      <DashboardLayout>
         {profile?.userType === "creator" ? (
           <CreatorDashboard user={user} profile={profile} />
         ) : (
           <BackerDashboard user={user} profile={profile} />
         )}
-      </div>
+      </DashboardLayout>
     </AuthGuard>
   );
 }

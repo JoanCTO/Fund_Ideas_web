@@ -28,7 +28,6 @@ const Navigation = ({ className, notifications = 0, ...props }) => {
 
   const navItems = [
     { label: "Discover", href: "/discover" },
-    { label: "Create", href: "/create" },
     { label: "About", href: "/about" },
   ];
 

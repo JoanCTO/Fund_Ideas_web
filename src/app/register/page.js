@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { createUserAccount } from "@/lib/api/auth";
 import { useAuth } from "@/lib/contexts/AuthContext";
+import { IMAGE_DICTIONARY } from "@/lib/imageDictionary";
 import { Eye, EyeOff, Check } from "lucide-react";
 
 export default function RegisterPage() {
@@ -348,14 +349,19 @@ export default function RegisterPage() {
 
       {/* Right column: hero image + testimonials */}
       <section className="relative hidden flex-1 lg:block">
-        <div className="animate-slide-right animate-delay-300 absolute inset-0 m-4 rounded-3xl bg-[url('https://images.unsplash.com/photo-1551434678-e076c223a692?w=2160&q=80')] bg-cover"></div>
+        <div
+          className="animate-slide-right animate-delay-300 absolute inset-0 m-4 rounded-3xl bg-cover"
+          style={{
+            backgroundImage: `url(${IMAGE_DICTIONARY.backgrounds.registerHero.url})`,
+          }}
+        ></div>
 
         {/* Testimonials */}
         <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-4 px-8">
           {/* Card 1 */}
           <div className="animate-testimonial animate-delay-1000 glass-card flex w-64 items-start gap-3 rounded-3xl p-5">
             <img
-              src="https://randomuser.me/api/portraits/women/44.jpg"
+              src={IMAGE_DICTIONARY.users.emmaRodriguez.url}
               className="h-10 w-10 rounded-2xl object-cover"
               alt="avatar"
             />
@@ -374,7 +380,7 @@ export default function RegisterPage() {
           {/* Card 2 */}
           <div className="animate-testimonial animate-delay-1200 glass-card hidden w-64 items-start gap-3 rounded-3xl p-5 xl:flex">
             <img
-              src="https://randomuser.me/api/portraits/men/22.jpg"
+              src={IMAGE_DICTIONARY.users.alexThompson.url}
               className="h-10 w-10 rounded-2xl object-cover"
               alt="avatar"
             />
@@ -393,7 +399,7 @@ export default function RegisterPage() {
           {/* Card 3 */}
           <div className="animate-testimonial animate-delay-1400 glass-card hidden w-64 items-start gap-3 rounded-3xl p-5 2xl:flex">
             <img
-              src="https://randomuser.me/api/portraits/women/68.jpg"
+              src={IMAGE_DICTIONARY.users.lisaPark.url}
               className="h-10 w-10 rounded-2xl object-cover"
               alt="avatar"
             />

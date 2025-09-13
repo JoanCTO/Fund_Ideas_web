@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Layout,
   Container,
@@ -18,6 +19,7 @@ import { Progress } from "@/components/ui/Progress";
 import { Badge } from "@/components/ui/Badge";
 import { Icon } from "@/components/ui/Icon";
 import ShaderBackground from "@/components/ui/ShaderBackground";
+import { IMAGE_DICTIONARY } from "@/lib/imageDictionary";
 import {
   Rocket,
   Users,
@@ -41,7 +43,7 @@ export default function Home() {
       backers: 234,
       daysLeft: 15,
       category: "AI/ML",
-      image: "/api/placeholder/400/300",
+      image: IMAGE_DICTIONARY.projects.aiCodeReviewThumb.url,
     },
     {
       id: 2,
@@ -54,7 +56,7 @@ export default function Home() {
       backers: 189,
       daysLeft: 22,
       category: "Blockchain",
-      image: "/api/placeholder/400/300",
+      image: IMAGE_DICTIONARY.projects.decentralizedIdentity.url,
     },
     {
       id: 3,
@@ -67,7 +69,7 @@ export default function Home() {
       backers: 156,
       daysLeft: 8,
       category: "Quantum Computing",
-      image: "/api/placeholder/400/300",
+      image: IMAGE_DICTIONARY.projects.quantumSimulator.url,
     },
   ];
 
@@ -105,14 +107,18 @@ export default function Home() {
                 </p>
 
                 <div className="animate-element animate-delay-300 flex flex-col justify-center gap-4 sm:flex-row">
-                  <Button variant="primary" size="lg" className="group">
-                    Start Your Project
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                  <Button variant="glass" size="lg" className="group">
-                    <Play className="mr-2 h-5 w-5" />
-                    Watch Demo
-                  </Button>
+                  <Link href="/create-project">
+                    <Button variant="primary" size="lg" className="group">
+                      Start Your Project
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
+                  <Link href="/discover">
+                    <Button variant="glass" size="lg" className="group">
+                      <Play className="mr-2 h-5 w-5" />
+                      Discover Projects
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Container>
@@ -206,9 +212,11 @@ export default function Home() {
                       <div className="text-sm text-zinc-400">
                         {project.backers} backers
                       </div>
-                      <Button variant="accent" size="sm">
-                        Back Project
-                      </Button>
+                      <Link href={`/projects/${project.id}`}>
+                        <Button variant="accent" size="sm">
+                          Back Project
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </CardContent>
@@ -230,12 +238,16 @@ export default function Home() {
               Ideas
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Button variant="primary" size="lg">
-                Create Your Project
-              </Button>
-              <Button variant="glass" size="lg">
-                Explore Opportunities
-              </Button>
+              <Link href="/create-project">
+                <Button variant="primary" size="lg">
+                  Create Your Project
+                </Button>
+              </Link>
+              <Link href="/discover">
+                <Button variant="glass" size="lg">
+                  Explore Opportunities
+                </Button>
+              </Link>
             </div>
           </div>
         </Container>

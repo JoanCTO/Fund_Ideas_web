@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Progress } from "@/components/ui/Progress";
+import { IMAGE_DICTIONARY } from "@/lib/imageDictionary";
 import {
   Heart,
   TrendingUp,
@@ -35,7 +36,7 @@ export function BackerDashboard({ user, profile }) {
       status: "live",
       progress: 60,
       daysLeft: 15,
-      image: "/api/placeholder/300/200",
+      image: IMAGE_DICTIONARY.projects.aiCodeReviewThumb.url,
     },
     {
       id: 2,
@@ -46,7 +47,7 @@ export function BackerDashboard({ user, profile }) {
       status: "live",
       progress: 64,
       daysLeft: 22,
-      image: "/api/placeholder/300/200",
+      image: IMAGE_DICTIONARY.projects.decentralizedIdentity.url,
     },
     {
       id: 3,
@@ -57,7 +58,7 @@ export function BackerDashboard({ user, profile }) {
       status: "completed",
       progress: 100,
       daysLeft: 0,
-      image: "/api/placeholder/300/200",
+      image: IMAGE_DICTIONARY.projects.quantumSimulator.url,
     },
   ];
 
@@ -71,7 +72,7 @@ export function BackerDashboard({ user, profile }) {
       goal: 50000,
       backers: 45,
       daysLeft: 18,
-      image: "/api/placeholder/300/200",
+      image: IMAGE_DICTIONARY.projects.mlApiPlatform.url,
     },
     {
       id: 5,
@@ -82,7 +83,7 @@ export function BackerDashboard({ user, profile }) {
       goal: 40000,
       backers: 32,
       daysLeft: 25,
-      image: "/api/placeholder/300/200",
+      image: IMAGE_DICTIONARY.projects.blockchainVoting.url,
     },
   ];
 

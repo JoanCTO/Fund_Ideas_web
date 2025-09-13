@@ -1,241 +1,174 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Upload, X, File, Image, FileText } from "lucide-react";
+import { Upload, X, File } from "lucide-react";
 
 const FileUpload = React.forwardRef(
   (
     {
       className,
-      label,
-      error,
-      success,
-      helperText,
+      onFileSelect,
       accept,
       multiple = false,
-      maxFiles = 5,
-      maxSize = 10 * 1024 * 1024, // 10MB
-      onFilesChange,
-      files = [],
+      maxSize = 10 * 1024 * 1024, // 10MB default
+      loading = false,
+      disabled = false,
+      children,
       ...props
     },
     ref,
   ) => {
-    const [isDragOver, setIsDragOver] = useState(false);
-    const [uploadError, setUploadError] = useState("");
     const fileInputRef = useRef(null);
-    const dropZoneRef = useRef(null);
+    const [dragActive, setDragActive] = useState(false);
+    const [error, setError] = useState("");
 
-    const fileId = React.useId();
+    const handleFiles = (files) => {
+      if (disabled || loading) return;
 
-    const getFileIcon = (file) => {
-      if (file.type.startsWith("image/")) {
-        return <Image className="h-5 w-5 text-violet-400" />;
-      } else if (file.type.startsWith("text/")) {
-        return <FileText className="h-5 w-5 text-blue-400" />;
-      } else {
-        return <File className="h-5 w-5 text-zinc-400" />;
+      const fileList = Array.from(files);
+
+      // Validate file count
+      if (!multiple && fileList.length > 1) {
+        setError("Only one file is allowed");
+        return;
       }
-    };
 
-    const formatFileSize = (bytes) => {
-      if (bytes === 0) return "0 Bytes";
-      const k = 1024;
-      const sizes = ["Bytes", "KB", "MB", "GB"];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-    };
-
-    const validateFile = (file) => {
-      if (file.size > maxSize) {
-        return `File ${file.name} is too large. Maximum size is ${formatFileSize(maxSize)}.`;
+      // Validate file sizes
+      const oversizedFiles = fileList.filter((file) => file.size > maxSize);
+      if (oversizedFiles.length > 0) {
+        setError(
+          `File size must be less than ${(maxSize / 1024 / 1024).toFixed(1)}MB`,
+        );
+        return;
       }
-      return null;
-    };
 
-    const handleFiles = useCallback(
-      (newFiles) => {
-        const fileArray = Array.from(newFiles);
-        const errors = [];
-        const validFiles = [];
-
-        if (!multiple && fileArray.length > 1) {
-          errors.push("Only one file is allowed.");
-        }
-
-        if (files.length + fileArray.length > maxFiles) {
-          errors.push(`Maximum ${maxFiles} files allowed.`);
-        }
-
-        fileArray.forEach((file) => {
-          const error = validateFile(file);
-          if (error) {
-            errors.push(error);
-          } else {
-            validFiles.push(file);
-          }
+      // Validate file types
+      if (accept) {
+        const acceptedTypes = accept.split(",").map((type) => type.trim());
+        const invalidFiles = fileList.filter((file) => {
+          return !acceptedTypes.some((type) => {
+            if (type.startsWith(".")) {
+              return file.name.toLowerCase().endsWith(type.toLowerCase());
+            }
+            return file.type.match(type.replace("*", ".*"));
+          });
         });
 
-        if (errors.length > 0) {
-          setUploadError(errors.join(" "));
-        } else {
-          setUploadError("");
-          onFilesChange?.(multiple ? [...files, ...validFiles] : validFiles);
+        if (invalidFiles.length > 0) {
+          setError(`Invalid file type. Accepted: ${accept}`);
+          return;
         }
-      },
-      [files, multiple, maxFiles, maxSize, onFilesChange],
-    );
+      }
 
-    const handleDrop = useCallback(
-      (e) => {
-        e.preventDefault();
-        setIsDragOver(false);
-
-        const droppedFiles = e.dataTransfer.files;
-        if (droppedFiles.length > 0) {
-          handleFiles(droppedFiles);
-        }
-      },
-      [handleFiles],
-    );
-
-    const handleDragOver = useCallback((e) => {
-      e.preventDefault();
-      setIsDragOver(true);
-    }, []);
-
-    const handleDragLeave = useCallback((e) => {
-      e.preventDefault();
-      setIsDragOver(false);
-    }, []);
-
-    const handleFileInputChange = useCallback(
-      (e) => {
-        const selectedFiles = e.target.files;
-        if (selectedFiles.length > 0) {
-          handleFiles(selectedFiles);
-        }
-      },
-      [handleFiles],
-    );
-
-    const removeFile = (index) => {
-      const newFiles = files.filter((_, i) => i !== index);
-      onFilesChange?.(newFiles);
-      setUploadError("");
+      setError("");
+      onFileSelect?.(fileList);
     };
 
-    const openFileDialog = () => {
-      fileInputRef.current?.click();
+    const handleDrag = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.type === "dragenter" || e.type === "dragover") {
+        setDragActive(true);
+      } else if (e.type === "dragleave") {
+        setDragActive(false);
+      }
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(false);
+
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFiles(e.dataTransfer.files);
+      }
+    };
+
+    const handleClick = () => {
+      if (!disabled && !loading) {
+        fileInputRef.current?.click();
+      }
+    };
+
+    const handleFileInputChange = (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFiles(e.target.files);
+      }
     };
 
     return (
       <div className="space-y-2">
-        {label && (
-          <label
-            htmlFor={fileId}
-            className={cn(
-              "block text-sm font-medium",
-              error
-                ? "text-red-400"
-                : success
-                  ? "text-green-400"
-                  : "text-zinc-400",
-            )}
-          >
-            {label}
-          </label>
-        )}
-
         <div
-          ref={dropZoneRef}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
+          ref={ref}
           className={cn(
-            "glass cursor-pointer rounded-2xl border-2 border-dashed transition-all duration-300",
-            isDragOver
-              ? "border-violet-400/60 bg-violet-400/5"
-              : "border-white/10 hover:border-white/20",
-            error && "border-red-400/40 bg-red-400/5",
-            success && "border-green-400/40 bg-green-400/5",
+            "relative cursor-pointer transition-all duration-300",
+            dragActive && "scale-[1.02]",
+            disabled && "cursor-not-allowed opacity-50",
+            loading && "cursor-wait opacity-75",
             className,
           )}
-          onClick={openFileDialog}
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+          onClick={handleClick}
           {...props}
         >
-          <div className="p-6 text-center">
-            <Upload
-              className={cn(
-                "mx-auto mb-3 h-8 w-8",
-                isDragOver ? "text-violet-400" : "text-zinc-400",
-              )}
-            />
-            <p className="mb-1 text-sm text-zinc-100">
-              {isDragOver
-                ? "Drop files here"
-                : "Click to upload or drag and drop"}
-            </p>
-            <p className="text-xs text-zinc-500">
-              {accept && `Accepted formats: ${accept}`}
-              {maxSize && ` • Max size: ${formatFileSize(maxSize)}`}
-              {multiple && ` • Max files: ${maxFiles}`}
-            </p>
-          </div>
-
           <input
             ref={fileInputRef}
-            id={fileId}
             type="file"
             accept={accept}
             multiple={multiple}
             onChange={handleFileInputChange}
             className="hidden"
+            disabled={disabled || loading}
           />
+
+          <div
+            className={cn(
+              "glass rounded-2xl border-2 border-dashed transition-all duration-300",
+              dragActive
+                ? "border-violet-400/60 bg-violet-400/5"
+                : "border-zinc-600 hover:border-zinc-500",
+              loading && "animate-pulse",
+            )}
+          >
+            {children || (
+              <div className="flex flex-col items-center justify-center p-8 text-center">
+                {loading ? (
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-violet-400 border-t-transparent" />
+                    <p className="text-sm text-zinc-400">Uploading...</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center gap-3">
+                    <Upload className="h-8 w-8 text-zinc-400" />
+                    <div>
+                      <p className="text-sm font-medium text-zinc-300">
+                        {dragActive
+                          ? "Drop files here"
+                          : "Click to upload or drag and drop"}
+                      </p>
+                      <p className="mt-1 text-xs text-zinc-500">
+                        {accept
+                          ? `Accepted formats: ${accept}`
+                          : "Any file type"}
+                      </p>
+                      {maxSize && (
+                        <p className="text-xs text-zinc-500">
+                          Max size: {(maxSize / 1024 / 1024).toFixed(1)}MB
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* File List */}
-        {files.length > 0 && (
-          <div className="space-y-2">
-            {files.map((file, index) => (
-              <div
-                key={`${file.name}-${index}`}
-                className="glass flex items-center justify-between rounded-xl p-3"
-              >
-                <div className="flex items-center space-x-3">
-                  {getFileIcon(file)}
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm text-zinc-100">
-                      {file.name}
-                    </p>
-                    <p className="text-xs text-zinc-400">
-                      {formatFileSize(file.size)}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFile(index);
-                  }}
-                  className="glass rounded-lg p-1 text-zinc-400 transition-colors hover:bg-red-400/10 hover:text-red-400"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {helperText && !error && !success && !uploadError && (
-          <p className="text-sm text-zinc-500">{helperText}</p>
-        )}
-        {(error || uploadError) && (
-          <p className="text-sm text-red-400">{error || uploadError}</p>
-        )}
-        {success && <p className="text-sm text-green-400">{success}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
       </div>
     );
   },
