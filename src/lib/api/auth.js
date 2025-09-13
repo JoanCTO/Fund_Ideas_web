@@ -1,4 +1,13 @@
-import { account, databases, DATABASE_ID, USERS_COLLECTION_ID, ID } from '../appwrite.js';
+import {
+  account,
+  databases,
+  DATABASE_ID,
+  USERS_COLLECTION_ID,
+  ID,
+  Permission,
+  Role,
+  Query,
+} from "../appwrite.js";
 
 /**
  * Authentication API functions for user management
@@ -13,11 +22,21 @@ import { account, databases, DATABASE_ID, USERS_COLLECTION_ID, ID } from '../app
  * @param {string} userType - 'creator' or 'backer'
  * @returns {Promise<Object>} User account and profile data
  */
-export async function createUserAccount(email, password, fullName, username, userType = 'backer') {
+export async function createUserAccount(
+  email,
+  password,
+  fullName,
+  username,
+  userType = "backer",
+) {
   try {
     // Create Appwrite account
     const user = await account.create(ID.unique(), email, password, fullName);
-    
+    // Create a session for the user
+    const session = await account.createEmailPasswordSession(email, password);
+
+    console.log("User created:", user);
+    console.log("Session created:", session);
     // Create user profile in database
     const profileData = {
       userId: user.$id,
@@ -25,32 +44,40 @@ export async function createUserAccount(email, password, fullName, username, use
       fullName,
       email,
       userType,
-      bio: '',
+      bio: "",
       profilePictureUrl: null,
       socialLinks: JSON.stringify({}),
       isVerified: false,
-      isActive: true
+      isActive: true,
     };
 
-    const profile = await databases.createDocument(
-      DATABASE_ID,
-      USERS_COLLECTION_ID,
-      ID.unique(),
-      profileData
-    );
+    console.log("WILL CREATE PROFILE");
+    const profile = await databases.createDocument({
+      databaseId: DATABASE_ID,
+      collectionId: USERS_COLLECTION_ID,
+      documentId: ID.unique(),
+      data: profileData,
+      permissions: [
+        Permission.read(Role.any()),
+        Permission.update(Role.user(user.$id)),
+        Permission.delete(Role.user(user.$id)),
+      ],
+    });
+
+    console.log("PROFILE CREATED:", profile);
 
     return {
       success: true,
-      user,
+      user: session,
       profile,
-      message: 'Account created successfully'
+      message: "Account created successfully",
     };
   } catch (error) {
-    console.error('Error creating user account:', error);
+    console.error("Error creating user account:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to create account'
+      message: "Failed to create account",
     };
   }
 }
@@ -64,23 +91,23 @@ export async function createUserAccount(email, password, fullName, username, use
 export async function loginUser(email, password) {
   try {
     const session = await account.createEmailPasswordSession(email, password);
-    
+
     // Get user profile data
     const profile = await getUserProfile(session.userId);
-    
+
     return {
       success: true,
       session,
       user: session,
       profile: profile.data,
-      message: 'Login successful'
+      message: "Login successful",
     };
   } catch (error) {
-    console.error('Error logging in user:', error);
+    console.error("Error logging in user:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Login failed'
+      message: "Login failed",
     };
   }
 }
@@ -91,17 +118,17 @@ export async function loginUser(email, password) {
  */
 export async function logoutUser() {
   try {
-    await account.deleteSession('current');
+    await account.deleteSession("current");
     return {
       success: true,
-      message: 'Logged out successfully'
+      message: "Logged out successfully",
     };
   } catch (error) {
-    console.error('Error logging out user:', error);
+    console.error("Error logging out user:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Logout failed'
+      message: "Logout failed",
     };
   }
 }
@@ -112,21 +139,24 @@ export async function logoutUser() {
  */
 export async function getCurrentUser() {
   try {
+    console.log("Getting current user");
     const user = await account.get();
+    console.log("User:", user);
     const profile = await getUserProfile(user.$id);
-    
+
+    console.log("Profile:", profile);
     return {
       success: true,
       user,
       profile: profile.data,
-      message: 'User data retrieved successfully'
+      message: "User data retrieved successfully",
     };
   } catch (error) {
-    console.error('Error getting current user:', error);
+    console.error("Error getting current user:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to get user data'
+      message: "Failed to get user data",
     };
   }
 }
@@ -142,14 +172,14 @@ export async function updateUserPassword(currentPassword, newPassword) {
     await account.updatePassword(newPassword, currentPassword);
     return {
       success: true,
-      message: 'Password updated successfully'
+      message: "Password updated successfully",
     };
   } catch (error) {
-    console.error('Error updating password:', error);
+    console.error("Error updating password:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to update password'
+      message: "Failed to update password",
     };
   }
 }
@@ -161,17 +191,20 @@ export async function updateUserPassword(currentPassword, newPassword) {
  */
 export async function resetUserPassword(email) {
   try {
-    await account.createRecovery(email, `${process.env.NEXT_PUBLIC_APP_URL}/reset-password`);
+    await account.createRecovery(
+      email,
+      `${process.env.NEXT_PUBLIC_APP_URL}/reset-password`,
+    );
     return {
       success: true,
-      message: 'Password reset email sent'
+      message: "Password reset email sent",
     };
   } catch (error) {
-    console.error('Error sending password reset:', error);
+    console.error("Error sending password reset:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to send password reset email'
+      message: "Failed to send password reset email",
     };
   }
 }
@@ -185,25 +218,22 @@ export async function resetUserPassword(email) {
 export async function verifyEmail(userId, secret) {
   try {
     await account.updateVerification(userId, secret);
-    
+
     // Update user profile to mark as verified
-    await databases.updateDocument(
-      DATABASE_ID,
-      USERS_COLLECTION_ID,
-      userId,
-      { isVerified: true }
-    );
-    
+    await databases.updateDocument(DATABASE_ID, USERS_COLLECTION_ID, userId, {
+      isVerified: true,
+    });
+
     return {
       success: true,
-      message: 'Email verified successfully'
+      message: "Email verified successfully",
     };
   } catch (error) {
-    console.error('Error verifying email:', error);
+    console.error("Error verifying email:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to verify email'
+      message: "Failed to verify email",
     };
   }
 }
@@ -214,19 +244,21 @@ export async function verifyEmail(userId, secret) {
  */
 export async function getUserSession() {
   try {
-    const session = await account.getSession('current');
+    console.log("Getting user session");
+    const session = await account.getSession("current");
+    console.log("Session:", session);
     return {
       success: true,
       session,
       isAuthenticated: true,
-      message: 'Session is valid'
+      message: "Session is valid",
     };
   } catch (error) {
     return {
       success: false,
       session: null,
       isAuthenticated: false,
-      message: 'No valid session'
+      message: "No valid session",
     };
   }
 }
@@ -237,18 +269,18 @@ export async function getUserSession() {
  */
 export async function refreshSession() {
   try {
-    const session = await account.getSession('current');
+    const session = await account.getSession("current");
     return {
       success: true,
       session,
-      message: 'Session refreshed successfully'
+      message: "Session refreshed successfully",
     };
   } catch (error) {
-    console.error('Error refreshing session:', error);
+    console.error("Error refreshing session:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to refresh session'
+      message: "Failed to refresh session",
     };
   }
 }
@@ -259,17 +291,17 @@ export async function refreshSession() {
  */
 export async function deleteSession() {
   try {
-    await account.deleteSession('current');
+    await account.deleteSession("current");
     return {
       success: true,
-      message: 'Session deleted successfully'
+      message: "Session deleted successfully",
     };
   } catch (error) {
-    console.error('Error deleting session:', error);
+    console.error("Error deleting session:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to delete session'
+      message: "Failed to delete session",
     };
   }
 }
@@ -283,14 +315,14 @@ export async function deleteAllSessions() {
     await account.deleteSessions();
     return {
       success: true,
-      message: 'All sessions deleted successfully'
+      message: "All sessions deleted successfully",
     };
   } catch (error) {
-    console.error('Error deleting all sessions:', error);
+    console.error("Error deleting all sessions:", error);
     return {
       success: false,
       error: error.message,
-      message: 'Failed to delete all sessions'
+      message: "Failed to delete all sessions",
     };
   }
 }
@@ -302,24 +334,26 @@ export async function deleteAllSessions() {
  */
 async function getUserProfile(userId) {
   try {
-    const profile = await databases.getDocument(
+    const profile = await databases.listDocuments(
       DATABASE_ID,
       USERS_COLLECTION_ID,
-      userId
+      [Query.equal("userId", userId)],
     );
-    
+    const [profileData] = profile.documents;
+    console.log("Profile DATA:", profile);
+
     return {
       success: true,
-      data: profile,
-      message: 'Profile retrieved successfully'
+      data: profileData,
+      message: "Profile retrieved successfully",
     };
   } catch (error) {
-    console.error('Error getting user profile:', error);
+    console.error("Error getting user profile:", error);
     return {
       success: false,
       data: null,
       error: error.message,
-      message: 'Failed to get user profile'
+      message: "Failed to get user profile",
     };
   }
 }

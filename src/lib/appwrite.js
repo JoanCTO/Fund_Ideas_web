@@ -2,6 +2,7 @@ import {
   Client,
   Account,
   Databases,
+  TablesDB,
   Storage,
   Query,
   ID,
@@ -12,7 +13,8 @@ import {
 // Client for client-side operations
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID)
+  .setDevKey(process.env.NEXT_PUBLIC_APPWRITE_DEV_TKN);
 
 // Server client with API key for server-side operations
 const serverClient = new Client()
@@ -22,6 +24,7 @@ const serverClient = new Client()
 // Client-side services
 const account = new Account(client);
 const databases = new Databases(client);
+const tablesDB = new TablesDB(client);
 const storage = new Storage(client);
 
 // Server-side services with API key
@@ -48,6 +51,7 @@ export {
   account,
   databases,
   storage,
+  tablesDB,
   serverDatabases,
   serverStorage,
   Query,

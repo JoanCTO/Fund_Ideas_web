@@ -15,11 +15,26 @@ importers:
         specifier: ^4.0.14
         version: 4.1.13
       appwrite:
-        specifier: ^16.1.0
-        version: 16.1.0
+        specifier: ^20.0.0
+        version: 20.0.0
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.6.1
+      geist:
+        specifier: ^1.5.1
+        version: 1.5.1(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      lucide-react:
+        specifier: ^0.544.0
+        version: 0.544.0(react@18.3.1)
       next:
         specifier: 14.2.15
         version: 14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      node-appwrite:
+        specifier: ^12.0.0
+        version: 12.0.1
       postcss:
         specifier: ^8.5.3
         version: 8.5.6
@@ -48,6 +63,10 @@ packages:
 
   '@appwrite.io/pink-icons@1.0.0':
     resolution: {integrity: sha512-+zpksP07MvOYwhx9AZDFW0pxXQNC2juKwyOQVRAwAOkN1ACSQKPlyytkI1u2ci6CQPWjJe20CzbvBBuRNXOKjA==}
+
+  '@fastify/busboy@2.1.1':
+    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
+    engines: {node: '>=14'}
 
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
@@ -220,8 +239,8 @@ packages:
   '@tailwindcss/postcss@4.1.13':
     resolution: {integrity: sha512-HLgx6YSFKJT7rJqh9oJs/TkBFhxuMOfUKSBEPYwV+t78POOBsdQ7crhZLzwcH3T0UyUuOzU/GK5pk5eKr3wCiQ==}
 
-  appwrite@16.1.0:
-    resolution: {integrity: sha512-fFkhpOjxvobKKWdgvG3fcsYt93QEk0VJ86q7ALD53eWAFiFmpklNXeE4rpXqdmtWpin4VuyWhkmH1aOF/QxvsA==}
+  appwrite@20.0.0:
+    resolution: {integrity: sha512-1uUWLCHT2ByJORz5+NORNk74HW02csg8Jm6lUKUog2DU9WnepqzbLnlD7BC22+XVo5tFp29dreinJk/doVTeTw==}
 
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
@@ -237,13 +256,26 @@ packages:
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
+
   detect-libc@2.0.4:
     resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
     engines: {node: '>=8'}
 
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
+
   enhanced-resolve@5.18.3:
     resolution: {integrity: sha512-d4lC8xfavMeBjzGr2vECC3fsGXziXZQyJxD868h2M/mBI3PwAuODxAkLkq5HYuvrPYcUtiLzsTo8U3PgX3Ocww==}
     engines: {node: '>=10.13.0'}
+
+  geist@1.5.1:
+    resolution: {integrity: sha512-mAHZxIsL2o3ZITFaBVFBnwyDOw+zNLYum6A6nIjpzCGIO8QtC3V76XF2RnZTyLx1wlDTmMDy8jg3Ib52MIjGvQ==}
+    peerDependencies:
+      next: '>=13.2.0'
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
@@ -323,6 +355,11 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
+  lucide-react@0.544.0:
+    resolution: {integrity: sha512-t5tS44bqd825zAW45UQxpG2CvcC4urOwn2TrwSH8u+MjeE+1NnWl6QqeQ/6NdjMqdOygyiT9p3Ev0p1NJykxjw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   magic-string@0.30.19:
     resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
 
@@ -361,6 +398,9 @@ packages:
         optional: true
       sass:
         optional: true
+
+  node-appwrite@12.0.1:
+    resolution: {integrity: sha512-2YHjh6gKe5oyFG4E4bnIz7zPEU456PYE6vCJerqGEgXD5xS5B4ToFFEvtYM6Vk3Q7XSWMqXo2sQJIXkT+MSD7A==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -486,6 +526,10 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  undici@5.29.0:
+    resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
+    engines: {node: '>=14.0'}
+
   yallist@5.0.0:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
@@ -495,6 +539,8 @@ snapshots:
   '@alloc/quick-lru@5.2.0': {}
 
   '@appwrite.io/pink-icons@1.0.0': {}
+
+  '@fastify/busboy@2.1.1': {}
 
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
@@ -627,7 +673,7 @@ snapshots:
       postcss: 8.5.6
       tailwindcss: 4.1.13
 
-  appwrite@16.1.0: {}
+  appwrite@20.0.0: {}
 
   busboy@1.6.0:
     dependencies:
@@ -639,12 +685,20 @@ snapshots:
 
   client-only@0.0.1: {}
 
+  clsx@2.1.1: {}
+
   detect-libc@2.0.4: {}
+
+  dotenv@16.6.1: {}
 
   enhanced-resolve@5.18.3:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.2.3
+
+  geist@1.5.1(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+    dependencies:
+      next: 14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   graceful-fs@4.2.11: {}
 
@@ -701,6 +755,10 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
+  lucide-react@0.544.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   magic-string@0.30.19:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -739,6 +797,10 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+
+  node-appwrite@12.0.1:
+    dependencies:
+      undici: 5.29.0
 
   picocolors@1.1.1: {}
 
@@ -797,5 +859,9 @@ snapshots:
       yallist: 5.0.0
 
   tslib@2.8.1: {}
+
+  undici@5.29.0:
+    dependencies:
+      '@fastify/busboy': 2.1.1
 
   yallist@5.0.0: {}

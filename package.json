@@ -14,7 +14,7 @@
   "dependencies": {
     "@appwrite.io/pink-icons": "^1.0.0",
     "@tailwindcss/postcss": "^4.0.14",
-    "appwrite": "^16.1.0",
+    "appwrite": "^20.0.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "geist": "^1.5.1",

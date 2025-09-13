@@ -28,12 +28,12 @@ import {
   ModalDescription,
 } from "@/components/ui/Modal";
 import { Alert, Toast } from "@/components/ui/Alert";
+import { Spinner } from "@/components/ui/Spinner";
 import {
-  Spinner,
   Skeleton,
   SkeletonCard,
   SkeletonText,
-} from "@/components/ui/Loading/Spinner";
+} from "@/components/ui/Loading/Skeleton";
 import {
   Dropdown,
   DropdownContent,
