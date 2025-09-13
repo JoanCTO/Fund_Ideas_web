@@ -1,9 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { PulsingBorder } from "@paper-design/shaders-react";
 import { motion } from "framer-motion";
 
 export default function PulsingCircle() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Fallback for server-side rendering
+  if (!isClient) {
+    return (
+      <div className="absolute right-8 bottom-8 z-30">
+        <div className="relative flex h-20 w-20 items-center justify-center">
+          <div className="h-15 w-15 animate-pulse rounded-full border-2 border-violet-500/50 bg-violet-500/10" />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="absolute right-8 bottom-8 z-30">
       <div className="relative flex h-20 w-20 items-center justify-center">

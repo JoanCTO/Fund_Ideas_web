@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { ProjectDashboard } from "@/components/dashboard/ProjectDashboard";
@@ -37,12 +38,12 @@ export default function ProjectsDashboardPage() {
             Only creators can access the project dashboard. Please update your
             profile to continue.
           </p>
-          <a
+          <Link
             href="/profile/edit"
             className="inline-flex items-center rounded-2xl bg-violet-500 px-6 py-3 text-white transition-colors hover:bg-violet-600"
           >
             Update Profile
-          </a>
+          </Link>
         </div>
       </div>
     );

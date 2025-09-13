@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { MeshGradient } from "@paper-design/shaders-react";
 
 export default function ShaderBackground({ children }) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   const containerRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -36,6 +41,16 @@ export default function ShaderBackground({ children }) {
       }
     };
   }, []);
+
+  // Fallback for server-side rendering
+  if (!isClient) {
+    return (
+      <div className="relative h-full w-full overflow-hidden bg-zinc-950">
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-violet-900/20 to-zinc-900" />
+        <div className="relative z-10">{children}</div>
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="relative h-full w-full overflow-hidden">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/Input";
 import { account } from "@/lib/appwrite";
 import { Eye, EyeOff, CheckCircle } from "lucide-react";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
@@ -276,5 +276,33 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-zinc-950 p-8">
+          <div className="w-full max-w-md">
+            <div className="flex flex-col gap-6 text-center">
+              <div className="animate-element glass mx-auto flex h-16 w-16 items-center justify-center rounded-3xl">
+                <div className="h-8 w-8 animate-pulse rounded-full bg-violet-400/20"></div>
+              </div>
+              <div className="animate-element animate-delay-100">
+                <h1 className="mb-4 text-3xl font-light tracking-tighter text-white">
+                  Loading...
+                </h1>
+                <p className="text-zinc-400">
+                  Please wait while we load the page.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

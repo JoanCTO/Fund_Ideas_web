@@ -84,4 +84,16 @@ const Checkbox = React.forwardRef(
 
 Checkbox.displayName = "Checkbox";
 
-export { Checkbox };
+const CheckboxGroup = React.forwardRef(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div ref={ref} className={cn("space-y-3", className)} {...props}>
+        {children}
+      </div>
+    );
+  },
+);
+
+CheckboxGroup.displayName = "CheckboxGroup";
+
+export { Checkbox, CheckboxGroup };

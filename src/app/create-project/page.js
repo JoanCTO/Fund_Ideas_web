@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { ProjectCreationWizard } from "@/components/project/ProjectCreationWizard";
@@ -36,12 +37,12 @@ export default function CreateProjectPage() {
             Only creators can create projects. Please update your profile to
             continue.
           </p>
-          <a
+          <Link
             href="/profile/edit"
             className="inline-flex items-center rounded-2xl bg-violet-500 px-6 py-3 text-white transition-colors hover:bg-violet-600"
           >
             Update Profile
-          </a>
+          </Link>
         </div>
       </div>
     );
